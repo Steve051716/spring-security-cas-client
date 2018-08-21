@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <setting name="cacheEnabled" value="false"/>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <setting name="useGeneratedKeys" value="true"/>
+        <setting name="safeRowBoundsEnabled" value="false"/>
+        <setting name="defaultExecutorType" value="REUSE"/>
+        <setting name="defaultStatementTimeout" value="600"/>
+    </settings>
+
+    <!-- <typeAliases>
+        <typeAlias alias="User" type="com.luken.model.User"/>
+    </typeAliases> -->
+    <!-- 如果选择了“自动扫描mapping.xml文件”，则不需要配置mappers -->
+    <!-- 
+    <mappers>
+        <mapper resource="conf/mybatis/mapping/userMapper.xml"/>
+    </mappers>
+     -->
+</configuration>

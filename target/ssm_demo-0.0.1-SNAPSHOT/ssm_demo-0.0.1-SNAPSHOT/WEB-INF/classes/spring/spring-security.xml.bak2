@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+    xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/security 
+	http://www.springframework.org/schema/security/spring-security-4.2.xsd
+    http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans-4.2.xsd">
+		<!-- <http auto-config="true">
+			<intercept-url pattern="/admin*" access="hasRole('ROLE_USER')"/>
+		</http>
+       <authentication-manager>
+       		<authentication-provider>
+                   <user-service>                  
+	                   <user name="admin" password="123456" authorities="ROLE_USER"/>
+                   </user-service>
+              </authentication-provider>
+       </authentication-manager> -->
+    <http auto-config="true">
+		<intercept-url pattern="/hello/**" access="hasRole('ROLE_ADMIN')" />
+		<form-login />
+        <!-- 登出逻辑 -->
+        <!-- <logout logout-success-url="/login?logout"/> -->
+        <!-- XML 配置中默认csrf是关闭的，此处设置为打开
+            如果这里打开csrf，则在form表单中需要添加
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+        -->
+        <!-- 关闭，或者在页面加入隐藏域 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/> -->
+        <csrf disabled="true"/>
+	</http>
+	
+	
+	<!-- 自定义user-service -->  
+    <beans:bean id="userDetailService" class="com.gyh.ssm.service.UserDetailService"></beans:bean>  
+  
+    <!-- 自定义权限管理，使用自己的user-service -->  
+    <authentication-manager>  
+        <authentication-provider user-service-ref="userDetailService"></authentication-provider>  
+    </authentication-manager>  
+	
+	<!-- <jdbc-user-service id="roleService"  data-source-ref="dataSource"
+    	users-by-username-query="select username,password from sys_user where username = ?"
+    	authorities-by-username-query="SELECT su.username, sr.name role FROM sys_user su LEFT JOIN sys_role_user sru ON su.id = sru.sys_user_id LEFT JOIN sys_role sr ON sru.sys_role_id = sr.id WHERE su1.username = ?"/>
+	<authentication-manager>
+	    <authentication-provider user-service-ref="roleService"/>
+	    <authentication-provider><user-service>
+				<user name="admin" password="123456" authorities="ROLE_USER" />
+			</user-service></authentication-provider>
+	</authentication-manager> -->
+	
+	<!-- <authentication-manager>
+		<authentication-provider>
+			<user-service>
+				<user name="admin" password="123456" authorities="ROLE_USER" />
+			</user-service>
+			<jdbc-user-service 
+				data-source-ref="dataSource"
+                users-by-username-query="select username,password from sys_user where username = ?"
+                authorities-by-username-query="SELECT su.username, sr.name role FROM sys_user su LEFT JOIN sys_role_user sru ON su.id = sru.sys_user_id LEFT JOIN sys_role sr ON sru.sys_role_id = sr.id WHERE su1.username = ?"/>
+		</authentication-provider>
+	</authentication-manager> -->
+</beans:beans>
